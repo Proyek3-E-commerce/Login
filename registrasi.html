@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml" />
+    <title>Register - Glowing</title>
+  </head>
+
+  <body>
+    <!-- Header-like section -->
+    <header class="header-login-regis">
+      <div class="container">
+        <a href="index.html" class="logo">
+        </a>
+      </div>
+    </header>
+
+    <!-- Register Form -->
+    <main>
+      <div class="container">
+        <div class="form-container">
+          <h2 class="h2">Register</h2>
+          <form id="registerForm" onsubmit="validateRegister(event)">
+            <input
+              type="text"
+              id="fullname"
+              placeholder="Full Name"
+              class="input-field"
+              required
+            />
+            <input
+              type="email"
+              id="email"
+              placeholder="Email"
+              class="input-field"
+              required
+            />
+            <input
+              type="password"
+              id="password"
+              placeholder="Password"
+              class="input-field"
+              required
+            />
+            <select id="userType" class="input-field" required>
+              <option value="" disabled selected>Select Role</option>
+              <option value="buyer">Buyer</option>
+              <option value="seller">Seller</option>
+            </select>
+            <button class="btn btn-primary" type="submit">Register</button>
+          </form>
+          <p>
+            Already have an account?
+            <a href="login.html" class="btn-link">Login here</a>
+          </p>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      function validateRegister(event) {
+        event.preventDefault(); // Mencegah halaman refresh saat form disubmit
+
+        // Ambil nilai input
+        const fullname = document.getElementById("fullname").value;
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const userType = document.getElementById("userType").value;
+
+        // Buat objek data registrasi
+        const registerData = {
+          fullname: fullname,
+          email: email,
+          password: password,
+          userType: userType,
+        };
+
+        // Kirim data registrasi ke backend menggunakan fetch
+        fetch("http://localhost:3000/register", {
+          // Ganti URL ini dengan endpoint backend Anda
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(registerData), // Data dikirim dalam format JSON
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json(); // Parsing respons JSON dari backend
+          })
+          .then((data) => {
+            console.log("Respons backend:", data); // Debug respons
+            if (data.status === "success") {
+              console.log("Registrasi berhasil, mengarahkan ke login.html");
+              alert("Registration successful! Please log in.");
+              window.location.href = "login.html";
+            } else {
+              console.error("Registrasi gagal:", data.message);
+              alert(data.message);
+            }
+          })
+          .catch((error) => {
+            console.error("Error pada fetch:", error);
+            alert("Terjadi kesalahan saat registrasi.");
+          });
+      }
+    </script>
+
+    <!-- Custom Script -->
+    <script src="./assets/script.js"></script>
+  </body>
+</html>
