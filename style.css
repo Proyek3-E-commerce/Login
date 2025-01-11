@@ -57,23 +57,23 @@ body {
 }
 
 .btn-primary {
-  background-color: #4caf50;
+  background-color: #ff7782;
   color: #fff;
 }
 
 .btn-primary:hover {
-  background-color: #45a049;
+  background-color: #ff7782;
 }
 
 .btn-link {
-  color: #4caf50;
+  color: #ff7782;
   text-decoration: none;
   font-weight: bold;
   transition: color 0.3s ease-in-out;
 }
 
 .btn-link:hover {
-  color: #388e3c;
+  color: #ff7782;
   text-decoration: underline;
 }
 
